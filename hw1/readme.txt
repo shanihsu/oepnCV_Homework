@@ -1,0 +1,1 @@
+主程式為main.py，執行時直接在command line執行指令"python main.py"，執行結果即可達到作業要求。
