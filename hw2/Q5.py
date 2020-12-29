@@ -6,6 +6,8 @@ from keras import backend as K
 from keras.utils.data_utils import get_file
 from keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import Adam
+from tensorflow.python.keras.models import load_model
+from tensorflow.python.keras.preprocessing import image
 
 import random
 import os
@@ -70,5 +72,18 @@ def train():
 
     # 儲存訓練好的模型
     net_final.save("resnet50.h5")    
+
+def prediction():
+    net = load_model('resnet50.h5')
+    cls_list = ['cats', 'dogs']
+    img = image.load_img("./petimagedata/test/cat/10000.jpg", target_size=(224, 224))
+    # 圖像欲處理
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+
+    # 對圖像進行分類
+    preds = net.predict(x)
+    print ('Predicted:', preds)
+    print(np.argmax(preds, axis=1))
 
 train()
