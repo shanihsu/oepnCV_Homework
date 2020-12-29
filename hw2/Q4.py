@@ -16,10 +16,6 @@ class disparityimg:
         stereo = cv2.StereoBM_create(numDisparities=272, blockSize=11)
         self.disparity = stereo.compute(imgL,imgR)
         self.previousimg = stereo.compute(imgL,imgR)
-        print(type(self.disparity))
-        print(self.disparity)
-        print(self.disparity.min())
-        print(self.disparity.max())
         #scale_percent =  40# percent of original size
         #width = int(imgL.shape[1] * scale_percent / 100)
         #height = int(imgL.shape[0] * scale_percent / 100)
@@ -28,9 +24,6 @@ class disparityimg:
         #self.previousimg = cv2.resize(self.disparity, dim)
         self.disparity = cv2.normalize(self.disparity, self.disparity, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
         self.previousimg = cv2.normalize(self.previousimg, self.previousimg, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
-        print(self.disparity)
-        print(self.disparity.min())
-        print(self.disparity.max())
         cv2.namedWindow("disparity", cv2.WINDOW_NORMAL)
         cv2.imshow('disparity', self.disparity)
         
@@ -38,14 +31,18 @@ class disparityimg:
 
     def onMouse(self, event, x, y, flags, param):
         if event == cv2.EVENT_LBUTTONDOWN:
-            #self.computeDisparity()
             self.disparity = self.previousimg.copy()
-            #cv2.imshow('disparity', self.previousimg)
             cv2.circle(self.disparity,(x,y),10,(255,0,0),-1)
+            #Draw white background rectangle
+            x1,y1,w,h = self.disparity.shape[1],self.disparity.shape[0],700,300
+            cv2.rectangle(self.disparity, (x1-700, y1-300), (x1 + h, y1 + w), (255,255,255), -1)
+            self.text1 = "Disparity: " + str(self.previousimg[y][x]) + " pixels"
+            self.text2 = "Depth: " + str(self.calculatedepth(self.previousimg[y][x])) + " mm"
+            # Add text
+            cv2.putText(self.disparity, self.text1, (x1 - 700 + int(w/10),y1-300 + int(h/4)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,0), 2)
+            cv2.putText(self.disparity, self.text2, (x1 - 700 + int(w/10),y1-300 + int(h/4)+int(h/4)), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,0), 2)
             cv2.namedWindow("disparity", cv2.WINDOW_NORMAL)
             cv2.imshow('disparity', self.disparity)
-            print(x , " ", y)
-            print(self.disparity[x][y])
 
     def selectpoint(self):
         self.computeDisparity()
