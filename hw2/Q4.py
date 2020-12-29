@@ -6,7 +6,7 @@ class disparityimg:
     def __init__(self):
         self.disparity = None
         self.previousimg = None
-        cv2.namedWindow("disparity", cv2.WINDOW_NORMAL)
+        #cv2.namedWindow("disparity", cv2.WINDOW_NORMAL)
         self.text1 = ""
         self.text2 = ""
 
@@ -26,8 +26,6 @@ class disparityimg:
         self.previousimg = cv2.normalize(self.previousimg, self.previousimg, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
         cv2.namedWindow("disparity", cv2.WINDOW_NORMAL)
         cv2.imshow('disparity', self.disparity)
-        
-        #cv2.waitKey(0)
 
     def onMouse(self, event, x, y, flags, param):
         if event == cv2.EVENT_LBUTTONDOWN:
@@ -57,7 +55,7 @@ class disparityimg:
         cv2.namedWindow("disparity", cv2.WINDOW_NORMAL)
         cv2.imshow('disparity', self.disparity)
         cv2.setMouseCallback('disparity', self.onMouse)
-        cv2.waitKey(0)
+        #cv2.waitKey(0)
 
     def calculatedepth(self, disparityvalue):
         baseline = 178
@@ -66,5 +64,5 @@ class disparityimg:
         depth = baseline * focallength / (minus_cr_cl + disparityvalue) 
         return int(depth)
 
-test = disparityimg()
-test.selectpoint()
+# test = disparityimg()
+# test.selectpoint()

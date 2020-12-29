@@ -1,36 +1,46 @@
 import numpy as np
 import cv2
 
-# def loadImage(self):
-#     img = cv2.imread('./Dataset_opencvdl/Q1_Image/Uncle_Roger.jpg')
-#     cv2.imshow('Image', img)
-#     print("Height = ", img.shape[0])
-#     print("Width = ", img.shape[1])
+def drawContour():
+    img1 = cv2.imread('./Datasets/Q1_Image/coin01.jpg')
+    img2 = cv2.imread('./Datasets/Q1_Image/coin02.jpg')
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+    blur1 = cv2.GaussianBlur(gray1,(5,5),0)
+    blur2 = cv2.GaussianBlur(gray2,(5,5),0)
+    low_threshold = 30
+    high_threshold = 200
+    ret, thresh1 = cv2.threshold(blur1, 127, 255, 0)
+    ret, thresh2 = cv2.threshold(blur2, 127, 255, 0)
+    edges1 = cv2.Canny(thresh1, low_threshold, high_threshold)
+    edges2 = cv2.Canny(thresh2, low_threshold, high_threshold)
+    contours1, hierarchy1 = cv2.findContours(edges1, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours2, hierarchy2 = cv2.findContours(edges2, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cv2.drawContours(img1, contours1, -1, (0,0,255), 2)
+    cv2.drawContours(img2, contours2, -1, (0,0,255), 2)
+    cv2.imshow('coin01', img1)
+    cv2.imshow('coin02', img2)
 
-# def colorsep(self):
-#     img = cv2.imread('./Dataset_opencvdl/Q1_Image/Flower.jpg')
-#     b, g, r = cv2.split(img)
-#     zeros = np.zeros(b.shape, np.uint8)
-#     blueBGR = cv2.merge((b,zeros,zeros))
-#     greenBGR = cv2.merge((zeros,g,zeros))
-#     redBGR = cv2.merge((zeros,zeros,r))
-#     cv2.imshow('Blue', blueBGR)
-#     cv2.imshow('Green', greenBGR)
-#     cv2.imshow('Red', redBGR)
+def countcoin1():
+    img1 = cv2.imread('./Datasets/Q1_Image/coin01.jpg')
+    gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    blur1 = cv2.GaussianBlur(gray1,(5,5),0)
+    low_threshold = 30
+    high_threshold = 200
+    ret, thresh1 = cv2.threshold(blur1, 127, 255, 0)
+    edges1 = cv2.Canny(thresh1, low_threshold, high_threshold)
+    contours1, hierarchy1 = cv2.findContours(edges1, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    text = "There are  " +  str(len(contours1)) +  " coins in coin01.jpg"
+    return text
 
-# def flipping(self):
-#     img = cv2.imread('./Dataset_opencvdl/Q1_Image/Uncle_Roger.jpg')
-#     imgflip = cv2.flip(img, 1)
-#     cv2.imshow('Result', imgflip)
-
-# def blending(self):
-#     cv2.namedWindow('Blending')
-#     cv2.createTrackbar('BLEND: ', 'Blending', 0, 255, update_value)
-#     img = cv2.imread('./Dataset_opencvdl/Q1_Image/Uncle_Roger.jpg')
-#     cv2.imshow('Blending', cv2.flip(img, 1))
-
-# def update_value(x):
-#     img = cv2.imread('./Dataset_opencvdl/Q1_Image/Uncle_Roger.jpg')
-#     imgflip = cv2.flip(img, 1)
-#     dst = cv2.addWeighted(img, x/255, imgflip, 1 - x/255, 0.0)
-#     cv2.imshow('Blending', dst)
+def countcoin2():
+    img2 = cv2.imread('./Datasets/Q1_Image/coin02.jpg')
+    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+    blur2 = cv2.GaussianBlur(gray2,(5,5),0)
+    low_threshold = 30
+    high_threshold = 200
+    ret, thresh2 = cv2.threshold(blur2, 127, 255, 0)
+    edges2 = cv2.Canny(thresh2, low_threshold, high_threshold)
+    contours2, hierarchy2 = cv2.findContours(edges2, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    text = "There are  " +  str(len(contours2)) +  " coins in coin02.jpg"
+    return text
