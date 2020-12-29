@@ -16,6 +16,7 @@ class disparityimg:
         stereo = cv2.StereoBM_create(numDisparities=272, blockSize=11)
         self.disparity = stereo.compute(imgL,imgR)
         self.previousimg = stereo.compute(imgL,imgR)
+        print(type(self.disparity))
         print(self.disparity)
         print(self.disparity.min())
         print(self.disparity.max())
@@ -38,7 +39,7 @@ class disparityimg:
     def onMouse(self, event, x, y, flags, param):
         if event == cv2.EVENT_LBUTTONDOWN:
             #self.computeDisparity()
-            #self.disparity = self.previousimg
+            self.disparity = self.previousimg.copy()
             #cv2.imshow('disparity', self.previousimg)
             cv2.circle(self.disparity,(x,y),10,(255,0,0),-1)
             cv2.namedWindow("disparity", cv2.WINDOW_NORMAL)
