@@ -75,15 +75,47 @@ def train():
 
 def prediction():
     net = load_model('resnet50.h5')
-    cls_list = ['cats', 'dogs']
-    img = image.load_img("./petimagedata/test/cat/10000.jpg", target_size=(224, 224))
+    cls_list = ['cat', 'dog']
+    path = './petimagedata/test/' +cls_list[random.randint(0,1)] + '/' + str(random.randint(10000, 12499)) + '.jpg' 
+    showimg = cv2.imread(path)
+    img = image.load_img(path, target_size=(224, 224))
     # 圖像欲處理
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
 
     # 對圖像進行分類
     preds = net.predict(x)
-    print ('Predicted:', preds)
-    print(np.argmax(preds, axis=1))
+    cv2.imshow(cls_list[int(np.argmax(preds, axis=1))],showimg)
+    # print ('Predicted:', preds)
+    # print(path)
+    # print(cls_list[int(np.argmax(preds, axis=1))])
 
-train()
+def showaccurancy():
+    img = cv2.imread("./accurancy.png", cv2.IMREAD_UNCHANGED)
+    cv2.imshow('img',img)
+
+def showscreenshot():
+    img = cv2.imread("./screenshot.png")
+    cv2.imshow('img',cv2.resize(img, (1000, 1000), interpolation=cv2.INTER_CUBIC))
+
+def showresize():
+    left = np.array([1, 2])
+    height = np.array([92.00,93.40])
+    labels = ['before resize', 'after resize']
+    plt.ylim(90, 95)  # 設定y軸範圍
+    plt.grid(True) 
+    plt.bar(left, height, color='b', width=0.5, tick_label=labels)
+    plt.show()
+
+def resizeimage():
+    for i in range(0, 500):
+        path1 = './petimagedata/train/cat/' + str(i) + '.jpg'
+        path2 = './petimagedata/train/dog/' + str(i) + '.jpg' 
+        img1 = cv2.imread(path1)
+        img2 = cv2.imread(path2)
+        path1 = './petimagedata/train/cat/' + str(i) + '_1.jpg'
+        path1 = './petimagedata/train/dog/' + str(i) + '_1.jpg'
+        cv2.imwrite(path1, cv2.resize(img1, (int(0.5*img1.shape[1]), int(0.5*img1.shape[0])), interpolation=cv2.INTER_CUBIC))
+        cv2.imwrite(path2, cv2.resize(img2, (int(0.5*img2.shape[1]), int(0.5*img2.shape[0])), interpolation=cv2.INTER_CUBIC))
+
+
