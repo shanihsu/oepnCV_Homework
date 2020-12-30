@@ -2,27 +2,29 @@ import sys
 #from PyQt5 import QtWidgets
 from hw2_ui import Ui_Form
 from PyQt5.QtWidgets import QApplication, QMainWindow
-import Q4
 import Q1
+import Q2
+import Q3
+import Q4
+import Q5
+
 class window(QMainWindow):
     def __init__(self):
         super(window, self).__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        self.ui.pushButton_4.clicked.connect(question4.selectpoint)
         self.ui.pushButton.clicked.connect(Q1.drawContour)
         self.ui.pushButton_2.clicked.connect(self.q1setText)
-        # self.ui.pushButton1_2.clicked.connect(Question_1.colorsep)
-        # self.ui.pushButton1_3.clicked.connect(Question_1.flipping)
-        # self.ui.pushButton1_4.clicked.connect(Question_1.blending)
-        # self.ui.pushButton2_1.clicked.connect(Question_2.medianfilter)
-        # self.ui.pushButton2_2.clicked.connect(Question_2.gaussianBlur)
-        # self.ui.pushButton2_3.clicked.connect(Question_2.bilateralFilter)
-        # self.ui.pushButton3_1.clicked.connect(Question_3.gaussianBlur)
-        # self.ui.pushButton3_2.clicked.connect(Question_3.sobelx)
-        # self.ui.pushButton3_3.clicked.connect(Question_3.sobely)
-        # self.ui.pushButton3_4.clicked.connect(Question_3.magnitude)
-        # self.ui.pushButton4.clicked.connect(lambda:Question_4.tsf(self.ui.input4_1.text(), self.ui.input4_2.text(), self.ui.input4_3.text(), self.ui.input4_4.text()))
+        self.ui.pushButton_4.clicked.connect(question4.selectpoint)
+        self.ui.pushButton_5.clicked.connect(Q2.findcorner)
+        self.ui.pushButton_6.clicked.connect(Q2.IntrinsicMatrix)
+        self.ui.pushButton_7.clicked.connect(Q2.DistortionMatrix)
+        self.ui.pushButton_3.clicked.connect(Q3.AugmentedReality)
+        self.ui.pushButton_8.clicked.connect(lambda:Q2.ExtrinsicMatrix(self.ui.comboBox.currentText()))
+        self.ui.pushButton_9.clicked.connect(Q5)
+        self.ui.pushButton_10.clicked.connect(Q5)
+        self.ui.pushButton_11.clicked.connect(Q5)
+        self.ui.pushButton_12.clicked.connect(Q5)
     def q1setText(self):
         self.ui.label_1.setText(Q1.countcoin1())
         self.ui.label_2.setText(Q1.countcoin2())
